@@ -1,0 +1,21 @@
+
+<div  *ngIf="!weatherData.waitingForData" >
+  <table class="table">
+    <tbody>
+      <tr>
+        <td><h1>Currently</h1></td>
+        <td><img width="50" [src]="getWeatherIcon()"/></td>
+      </tr>
+      <tr>
+        <td>Temp.</td>
+        <td>{{weatherData.currentTemp}} &#8451;</td>
+      </tr>
+      <tr>
+        <td>Summary</td>
+        <td>{{weatherData.summary}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+</div>

@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
-import { GarageDoorService } from '../garage-door.service';
+import { Component, OnInit } from '@angular/core';
+import { UnSplashService } from '../unsplash.service';
+import { WeatherService } from '../open-weather.service';
+import { Weather } from './weather.ts/weather.ts.component'
+
 
 @Component({
   selector: 'app-root',
@@ -8,23 +11,27 @@ import { GarageDoorService } from '../garage-door.service';
 })
 export class AppComponent {
   title = 'garage-door';
-  garageDoorService: GarageDoorService;
+  unsplashService: UnSplashService;
+  weatherService: WeatherService;
+  subscriptionUnSplash: any;
+  subscriptionWeather: any;
+  public responseFromDoor = "???";
+  public responseFromCamera = "???";
+  public responseFromUnSplash = "";
+  public loader_gif = "./assets/loader.gif"
 
-  constructor (_service: GarageDoorService) {
-    this.garageDoorService = _service;
-  }
-
-  public test() {
-    console.log('test');
-  }
-
-  public open_button_clicked() {
-    this.garageDoorService.open_garage_door();
-  }
-
-  public close_button_clicked() {
-    this.garageDoorService.close_garage_door();
+  constructor (_unsplashService: UnSplashService, _weatherService: WeatherService) {
+    this.unsplashService = _unsplashService;
+    this.weatherService = _weatherService;
   }
 
 
+  ngOnInit() {
+    this.unsplashService.fetch_random_image();
+    this.subscriptionUnSplash  = this.unsplashService.gotResponseFromUnsplash.subscribe(
+      () => {
+        this.responseFromUnSplash = this.unsplashService.getResponseFromUnSplash();
+      }
+    );
+  }
 }
