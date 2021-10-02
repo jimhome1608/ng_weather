@@ -1,18 +1,22 @@
 
-<div  *ngIf="!weatherData.waitingForData" >
+<div  *ngIf="!currentWeatherData.waitingForData" >
   <table class="table">
     <tbody>
       <tr>
-        <td><h1>Currently</h1></td>
+        <td><h1>Clayton Vic. Australia</h1></td>
         <td><img width="50" [src]="getWeatherIcon()"/></td>
       </tr>
       <tr>
         <td>Temp.</td>
-        <td>{{weatherData.currentTemp}} &#8451;</td>
+        <td>{{currentWeatherData.currentTemp}} &#8451;</td>
+      </tr>
+      <tr>
+        <td>Wind Speed</td>
+        <td>{{currentWeatherData.windSpeed}}</td>
       </tr>
       <tr>
         <td>Summary</td>
-        <td>{{weatherData.summary}}</td>
+        <td>{{currentWeatherData.summary}}</td>
       </tr>
     </tbody>
   </table>

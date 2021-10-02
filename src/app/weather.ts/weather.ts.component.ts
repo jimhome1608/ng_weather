@@ -11,27 +11,26 @@ export class Weather implements OnInit {
 
   weatherService: WeatherService;
   subscriptionWeather: any;
-  public responseFromWeather = "";
-  public weatherData: WeatherData = {} as WeatherData;
+  public currentWeatherData: WeatherData = {} as WeatherData;
 
   constructor( _weatherService: WeatherService) {
     this.weatherService = _weatherService;
-    this.weatherService.get_weather();
+    this.weatherService.get_current_weather();
 
   }
 
   getWeatherIcon() {
-    return 'https://assetambee.s3-us-west-2.amazonaws.com/weatherIcons/PNG/' + this.weatherData.icon + '.png';
+    return 'https://assetambee.s3-us-west-2.amazonaws.com/weatherIcons/PNG/' + this.currentWeatherData.icon + '.png';
   }
 
   ngOnInit(): void {
-    this.weatherData.waitingForData = true;
+    this.currentWeatherData.waitingForData = true;
     this.subscriptionWeather = this.weatherService.gotResponseFromWeather.subscribe(
       () => {
 
-        this.weatherData = this.weatherService.getResponseFromWeather();
-        this.weatherData.waitingForData = false;
-        console.log(this.weatherData);
+        this.currentWeatherData = this.weatherService.getResponseFromWeather();
+        this.currentWeatherData.waitingForData = false;
+        console.log(this.currentWeatherData);
       }
     );
   }
