@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UnSplashService } from '../unsplash.service';
-import { WeatherService } from '../open-weather.service';
-import { Weather } from './weather.ts/weather.ts.component'
+import { UnSplashService } from '../services/unsplash.service';
+import { WeatherService } from '../services/open-weather.service';
 
 
 @Component({
