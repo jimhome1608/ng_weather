@@ -25,10 +25,10 @@ export class Weather implements OnInit {
 
   ngOnInit(): void {
     this.currentWeatherData.waitingForData = true;
-    this.subscriptionWeather = this.weatherService.gotResponseFromWeather.subscribe(
+    this.subscriptionWeather = this.weatherService.gotNewWeatherData.subscribe(
       () => {
 
-        this.currentWeatherData = this.weatherService.getResponseFromWeather();
+        this.currentWeatherData = this.weatherService.getCurrentWeatherData();
         this.currentWeatherData.waitingForData = false;
         console.log(this.currentWeatherData);
       }

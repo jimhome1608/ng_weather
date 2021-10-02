@@ -9,9 +9,9 @@ import { WeatherData } from '../models/weatherData';
 
 @Injectable()
 export class WeatherService {
-  private weatherData: WeatherData = {} as WeatherData;
+  private currentWeatherData: WeatherData = {} as WeatherData;
   private api_key = '6ef5a21a5f056a57e4339033e1520fd585ff47c04b9ce7d852bfb3d95441ee80';
-  public gotResponseFromWeather= new Subject<void>();
+  public gotNewWeatherData= new Subject<void>();
   httpClient: HttpClient;
 
   constructor(private http: HttpClient)
@@ -19,8 +19,8 @@ export class WeatherService {
     this.httpClient = http
   }
 
-  public getResponseFromWeather() {
-     return this.weatherData;
+  public getCurrentWeatherData() {
+     return this.currentWeatherData;
   }
 
   private convertToCelcius(_f: any) {
@@ -44,12 +44,11 @@ export class WeatherService {
     this.httpClient.get(_url , { 'headers': headers })
       .subscribe(
         (d:any) => {
-          console.log(JSON.stringify(d));
-          this.weatherData.currentTemp =  this.convertToCelcius(d.data.temperature);
-          this.weatherData.summary = d.data.summary;
-          this.weatherData.icon = d.data.icon;
-          this.weatherData.windSpeed = this.convertToKM(d.data.windSpeed)+' kmh.';
-          this.gotResponseFromWeather.next();
+          this.currentWeatherData.currentTemp =  this.convertToCelcius(d.data.temperature);
+          this.currentWeatherData.summary = d.data.summary;
+          this.currentWeatherData.icon = d.data.icon;
+          this.currentWeatherData.windSpeed = this.convertToKM(d.data.windSpeed)+' kmh.';
+          this.gotNewWeatherData.next();
         }
       );
   }
