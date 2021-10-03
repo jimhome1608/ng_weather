@@ -16,7 +16,6 @@ export class Weather implements OnInit {
   constructor( _weatherService: WeatherService) {
     this.weatherService = _weatherService;
     this.weatherService.get_current_weather();
-
   }
 
   getWeatherIcon() {
@@ -25,7 +24,7 @@ export class Weather implements OnInit {
 
   ngOnInit(): void {
     this.currentWeatherData.waitingForData = true;
-    this.subscriptionWeather = this.weatherService.gotNewWeatherData.subscribe(
+    this.subscriptionWeather = this.weatherService.onGetCurrentWeatherData.subscribe(
       () => {
 
         this.currentWeatherData = this.weatherService.getCurrentWeatherData();
