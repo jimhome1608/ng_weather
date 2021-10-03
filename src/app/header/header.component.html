@@ -1,8 +1,17 @@
 
+
+
+
 <div class="alert alert-primary" role="alert">
-  <h1>Weather - Current </h1>
-  <div>
-<a routerLink="/" class="btn btn-primary">Current</a>&nbsp;
-<a routerLink="forecast" class="btn btn-success">Forecast</a>&nbsp;
-</div>
-</div>
+  <h1>Weather </h1>
+<div>
+<h2>
+<ul class="nav nav-pills">
+  <li role="presentation" class="btn" [ngClass]="{'btn-info' : currentRoute==''}">
+    <a routerLink="/">Current</a>&nbsp;
+  </li> &nbsp;
+  <li  role="presentation"  class="btn" [ngClass]="{'btn-info' : currentRoute=='forecast'}">
+    <a  routerLink="/forecast" >Forecast</a>
+  </li>
+</ul>
+</h2>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router,NavigationEnd, NavigationStart  } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -7,7 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  currentRoute: string = '';
+
+  constructor(router:Router) {
+    router.events.forEach((event) => {
+      if(event instanceof NavigationStart) {
+        this.currentRoute = event.url.replace('/','');
+        console.log(event.url);
+      }
+      // NavigationEnd
+      // NavigationCancel
+      // NavigationError
+      // RoutesRecognized
+    });
+  }
 
   ngOnInit(): void {
   }
