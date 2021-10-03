@@ -10,8 +10,12 @@ import { WeatherData } from '../models/weatherData';
 @Injectable()
 export class WeatherService {
   private currentWeatherData: WeatherData = {} as WeatherData;
+  private forecastWeatherData = {};
   private api_key = '6ef5a21a5f056a57e4339033e1520fd585ff47c04b9ce7d852bfb3d95441ee80';
-  public gotNewWeatherData= new Subject<void>();
+  private lat = '-37.91537184498749';
+  private lng = '145.12326532556176';
+  public onGetCurrentWeatherData= new Subject<void>();
+  public onGetForecaseWeatherData= new Subject<void>();
   httpClient: HttpClient;
 
   constructor(private http: HttpClient)
@@ -19,9 +23,13 @@ export class WeatherService {
     this.httpClient = http
   }
 
-  public getCurrentWeatherData() {
-     return this.currentWeatherData;
+  public getForecaseWeatherData() {
+     return this.forecastWeatherData;
   }
+
+  public getCurrentWeatherData() {
+    return this.currentWeatherData;
+ }
 
   private convertToCelcius(_f: any) {
     const res =  (_f-32) * 5/9;
@@ -33,13 +41,29 @@ export class WeatherService {
     return res.toFixed(2);
   }
 
+// https://api.ambeedata.com/weather/forecast/by-lat-lng?lat=12&lng=77&filter=daily
 
+public get_forecast_weather() {
+  let headers = new HttpHeaders();
+  headers = headers.set('Content-Type', 'application/json');
+  headers = headers.append('x-api-key', this.api_key);
+  var _url = "https://api.ambeedata.com/weather/forecast/by-lat-lng?lat="+this.lat+"&lng="+this.lng+"&filter=daily";
+  console.log(_url);
+  this.httpClient.get(_url , { 'headers': headers })
+    .subscribe(
+      (d:any) => {
+        this.forecastWeatherData = d.data.forecast;
+        console.log(this.forecastWeatherData);
+        this.onGetForecaseWeatherData.next();
+      }
+    );
+}
 
   public get_current_weather() {
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json');
     headers = headers.append('x-api-key', this.api_key);
-    var _url = "https://api.ambeedata.com/weather/latest/by-lat-lng?lat=-37.91537184498749&lng=145.12326532556176";
+    var _url = "https://api.ambeedata.com/weather/latest/by-lat-lng?lat="+this.lat+"&lng="+this.lng;
     console.log(_url);
     this.httpClient.get(_url , { 'headers': headers })
       .subscribe(
@@ -48,8 +72,9 @@ export class WeatherService {
           this.currentWeatherData.summary = d.data.summary;
           this.currentWeatherData.icon = d.data.icon;
           this.currentWeatherData.windSpeed = this.convertToKM(d.data.windSpeed)+' kmh.';
-          this.gotNewWeatherData.next();
+          this.onGetCurrentWeatherData.next();
         }
       );
   }
+
 }

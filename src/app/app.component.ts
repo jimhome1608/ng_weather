@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { UnSplashService } from '../services/unsplash.service';
-import { WeatherService } from '../services/open-weather.service';
 
 
 @Component({
@@ -11,7 +10,6 @@ import { WeatherService } from '../services/open-weather.service';
 export class AppComponent {
   title = 'garage-door';
   unsplashService: UnSplashService;
-  weatherService: WeatherService;
   subscriptionUnSplash: any;
   subscriptionWeather: any;
   public responseFromDoor = "???";
@@ -19,9 +17,8 @@ export class AppComponent {
   public responseFromUnSplash = "";
   public loader_gif = "./assets/loader.gif"
 
-  constructor (_unsplashService: UnSplashService, _weatherService: WeatherService) {
+  constructor (_unsplashService: UnSplashService) {
     this.unsplashService = _unsplashService;
-    this.weatherService = _weatherService;
   }
 
 
