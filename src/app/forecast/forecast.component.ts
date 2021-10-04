@@ -16,13 +16,16 @@ export class ForecastComponent implements OnInit {
     this.weatherService = _weatherService;
   }
 
+
   make_date(_date: string) {
-    // multiplied by 1000 so that the argument is in milliseconds, not seconds.
-    let date = new Date(1633352400);
+    //  1633352400 is unix time stamp second since 1970;
+    const int_date = parseInt(_date, 10);
+    const milliseconds = int_date * 1000;
+    let date = new Date(milliseconds);
     let dd = String(date.getDate()).padStart(2, '0');
     let mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
     let yyyy = date.getFullYear();
-    let formattedTime = mm + '/' + dd + '/' + yyyy;
+    let formattedTime = dd + '/' + mm + '/' + + yyyy;
 
     console.log(formattedTime);
     return formattedTime;
