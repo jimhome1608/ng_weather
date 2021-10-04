@@ -17,6 +17,8 @@ export class WeatherService {
   public onGetCurrentWeatherData= new Subject<void>();
   public onGetForecaseWeatherData= new Subject<void>();
   httpClient: HttpClient;
+  private forecast_data_key: string = 'forecast_data_key';
+  private current_data_key: string = 'current_weather_data_key';
 
   constructor(private http: HttpClient)
   {
@@ -44,22 +46,38 @@ export class WeatherService {
 // https://api.ambeedata.com/weather/forecast/by-lat-lng?lat=12&lng=77&filter=daily
 
 public get_forecast_weather() {
+  let _data = localStorage.getItem(this.forecast_data_key);
+  if (_data) {
+    this.forecastWeatherData = JSON.parse(_data);
+    this.onGetForecaseWeatherData.next();
+    return;
+  }
   let headers = new HttpHeaders();
   headers = headers.set('Content-Type', 'application/json');
   headers = headers.append('x-api-key', this.api_key);
+
   var _url = "https://api.ambeedata.com/weather/forecast/by-lat-lng?lat="+this.lat+"&lng="+this.lng+"&filter=daily";
   console.log(_url);
   this.httpClient.get(_url , { 'headers': headers })
     .subscribe(
       (d:any) => {
         this.forecastWeatherData = d.data.forecast;
-        console.log(this.forecastWeatherData);
+        localStorage.setItem(this.forecast_data_key, JSON.stringify(this.forecastWeatherData));
         this.onGetForecaseWeatherData.next();
       }
     );
 }
 
   public get_current_weather() {
+    let _data = localStorage.getItem(this.current_data_key);
+    if (_data) {
+      this.currentWeatherData = JSON.parse(_data);
+      console.log('*************************************');
+      console.log(this.currentWeatherData);
+      console.log('*************************************');
+      this.onGetCurrentWeatherData.next();
+      return;
+    }
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json');
     headers = headers.append('x-api-key', this.api_key);
@@ -72,6 +90,7 @@ public get_forecast_weather() {
           this.currentWeatherData.summary = d.data.summary;
           this.currentWeatherData.icon = d.data.icon;
           this.currentWeatherData.windSpeed = this.convertToKM(d.data.windSpeed)+' kmh.';
+          localStorage.setItem(this.current_data_key, JSON.stringify(this.currentWeatherData));
           this.onGetCurrentWeatherData.next();
         }
       );

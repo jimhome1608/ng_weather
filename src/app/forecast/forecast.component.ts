@@ -14,7 +14,20 @@ export class ForecastComponent implements OnInit {
 
   constructor( _weatherService: WeatherService) {
     this.weatherService = _weatherService;
-    this.weatherService.get_forecast_weather();
+  }
+
+  make_date(_date: string) {
+    // multiplied by 1000 so that the argument is in milliseconds, not seconds.
+    let date = new Date(1633352400);
+    let dd = String(date.getDate()).padStart(2, '0');
+    let mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let yyyy = date.getFullYear();
+    let formattedTime = mm + '/' + dd + '/' + yyyy;
+
+    console.log(formattedTime);
+    return formattedTime;
+    const _res = new Date(_date);
+    return _res;
   }
 
   ngOnInit(): void {
@@ -25,6 +38,7 @@ export class ForecastComponent implements OnInit {
         console.log(this.forecaseWeatherData);
       }
     );
+    this.weatherService.get_forecast_weather();
   }
 
 }

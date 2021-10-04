@@ -11,7 +11,7 @@ returns next 7 days forecast
   </thead>
   <tbody>
     <tr *ngFor="let user of forecaseWeatherData; index as i; first as isFirst">
-      <td>{{user.time}}</td>
+      <td>{{make_date(user.time)}}</td>
       <td>{{user.summary}}</td>
     </tr>
   </tbody>

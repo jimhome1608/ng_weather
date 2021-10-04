@@ -15,8 +15,8 @@ export class Weather implements OnInit {
 
   constructor( _weatherService: WeatherService) {
     this.weatherService = _weatherService;
-    this.weatherService.get_current_weather();
   }
+
 
   getWeatherIcon() {
     return 'https://assetambee.s3-us-west-2.amazonaws.com/weatherIcons/PNG/' + this.currentWeatherData.icon + '.png';
@@ -29,9 +29,11 @@ export class Weather implements OnInit {
 
         this.currentWeatherData = this.weatherService.getCurrentWeatherData();
         this.currentWeatherData.waitingForData = false;
+        console.log("onGetCurrentWeatherData >>>");
         console.log(this.currentWeatherData);
       }
     );
+    this.weatherService.get_current_weather();
   }
 
 }
