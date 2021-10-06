@@ -19,13 +19,15 @@ export class ForecastComponent implements OnInit {
 
   make_date(_date: string) {
     //  1633352400 is unix time stamp second since 1970;
+    let days = ['Sun.','Mon.','Tues.','Wed.','Thurs.','Frid.','Sat.'];
     const int_date = parseInt(_date, 10);
     const milliseconds = int_date * 1000;
     let date = new Date(milliseconds);
-    let dd = String(date.getDate()).padStart(2, '0');
+    let dd = days[ date.getDay() ];
+    let day_of_month = String(date.getDate()).padStart(2, '0');
     let mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
     let yyyy = date.getFullYear();
-    let formattedTime = dd + '/' + mm + '/' +  yyyy;
+    let formattedTime = dd +' '+ day_of_month+'/'+mm;
 
     console.log(formattedTime);
     return formattedTime;

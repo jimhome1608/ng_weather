@@ -17,11 +17,6 @@ export class Weather implements OnInit {
     this.weatherService = _weatherService;
   }
 
-
-  getWeatherIcon() {
-    return 'https://assetambee.s3-us-west-2.amazonaws.com/weatherIcons/PNG/' + this.currentWeatherData.icon + '.png';
-  }
-
   ngOnInit(): void {
     this.currentWeatherData.waitingForData = true;
     this.subscriptionWeather = this.weatherService.onGetCurrentWeatherData.subscribe(
